@@ -34,9 +34,10 @@ public class NoticeRepository {
 
 	//randomkey
 	public Boolean getRandomKey(){
-		if (template.randomKey() != null){
+		try {
+			template.randomKey();
 			return true;
-		} else {
+		} catch (Exception e){
 			return false;
 		}
 	}

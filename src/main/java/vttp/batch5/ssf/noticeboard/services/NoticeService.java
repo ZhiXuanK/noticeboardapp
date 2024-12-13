@@ -51,7 +51,7 @@ public class NoticeService {
 			.add("text", notice.getText())
 			.build();
 
-		String URL = publishURL + "/notice";
+		String URL = publishURL + "notice";
 
 		RequestEntity<String> req = RequestEntity
 			.post(URL)
@@ -69,7 +69,7 @@ public class NoticeService {
 			ResponseEntity<String> resp = template.exchange(req, String.class);
 
 			statusCode = resp.getStatusCodeValue();
-			message = resp.getBody().toString();
+			message = resp.getBody();
 
 			obj = Json.createReader(new StringReader(message)).readObject();
 
@@ -78,6 +78,7 @@ public class NoticeService {
 				.add("timestamp", obj.getJsonNumber("timestamp"))
 				.build();
 
+			//put successful response into redis
 			repo.insertNotices(notice, body.toString());
 
 		} catch (HttpStatusCodeException e) {
@@ -85,7 +86,7 @@ public class NoticeService {
                 .body(e.getResponseBodyAsString());
 			
 			statusCode = resp.getStatusCodeValue();
-			message = resp.getBody().toString();
+			message = resp.getBody();
 	
 			obj = Json.createReader(new StringReader(message)).readObject();
 
@@ -94,7 +95,7 @@ public class NoticeService {
 				.add("timestamp", obj.getJsonNumber("timestamp"))
 				.build();
 		}
-		
+
 		Map<String, String> response = new HashMap<>();
 
 		response.put("statusCode", String.valueOf(statusCode));

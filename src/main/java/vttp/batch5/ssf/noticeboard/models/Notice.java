@@ -15,18 +15,19 @@ import jakarta.validation.constraints.Size;
 public class Notice {
     
     //title of notice
-    @NotNull(message="please input a title")
+    @NotEmpty(message="please input a title")
     @Size(min=3, max=128, message="title must be between 3 and 128 characters")
     private String title;
 
     //email address of person creating notice
     @Email(message="must be a well-formed email address")
-    @NotNull(message="please input an email address")
+    @NotEmpty(message="please input an email address")
     private String poster;
 
     //date at which post should be posted, format yyyy-MM-dd
-    @Future(message="please input a date beginning tomorrow")
+    @Future(message="please input a date that is after today")
     @DateTimeFormat(pattern="yyyy-MM-dd")
+    @NotNull(message="please input a date")
     private Date postDate;
 
     @NotEmpty(message="please select at least one category")

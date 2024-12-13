@@ -26,4 +26,4 @@ EXPOSE ${PORT}
 
 HEALTHCHECK --interval=60s --start-period=120s CMD curl -s -f http://localhost:${PORT}/status || exit 1
 
-ENTRYPOINT java -jar noticeboard.jar
+ENTRYPOINT SERVER_PORT=${PORT} java -jar noticeboard.jar
